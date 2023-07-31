@@ -17,11 +17,11 @@ int servoh = 90;
 Servo vertical;  
 int servov = 120;
 
-int ldrul = 32;//Upper left sensor  
-int ldrur = 33;//Upper right sensor
-int ldrll = 35;//Lower left sensor
-int ldrlr = 34;//Lower right sensor
-int panel = 39;//Panel "+" pin
+const int ldrul = 32;//Upper left sensor  
+const int ldrur = 33;//Upper right sensor
+const int ldrll = 35;//Lower left sensor
+const int ldrlr = 34;//Lower right sensor
+const int panel = 39;//Panel "+" pin
 
 void setup()
 {
@@ -75,9 +75,9 @@ void loop()
     SerialBT.println(line);
     
   }  
-  int time = 100; 
+  const int time = 100; 
 
-  int tol = 800;//we set a tolerance to help us ignore the naturally scattered light.
+  const int tol = 800;//we set a tolerance to help us ignore the naturally scattered light.
 
   int avgup = (ul + ur) / 2; //calculating the aritmetic average of upper sensors 
   int avgdown = (ll + lr) / 2; //calculating the artimetic average of lower sensors
