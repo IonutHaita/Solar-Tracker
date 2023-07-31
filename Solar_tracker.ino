@@ -75,7 +75,7 @@ void loop()
     SerialBT.println(line);
     
   }  
-  int ms = 100; 
+  int time = 100; 
 
   int tol = 800;//we set a tolerance to help us ignore the naturally scattered light.
 
@@ -135,5 +135,5 @@ void loop()
     }
   
 
-  delay(ms);
+  delay(time);
 } 
