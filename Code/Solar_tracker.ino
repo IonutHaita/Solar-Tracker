@@ -59,19 +59,19 @@ void loop()
 
   if (SerialBT.available()) 
   {
-    sprintf(line, "Panel voltage: %d mV", valpanou);
+    sprintf(line, "Panel voltage: %d mV", valpanel);
     SerialBT.println(line);
 
-    sprintf(line, "Upper left sensor: %d", ss);
+    sprintf(line, "Upper left sensor: %d", ul);
     SerialBT.println(line);
     
-    sprintf(line, "Upper right sensor: %d", sd);
+    sprintf(line, "Upper right sensor: %d", ur);
     SerialBT.println(line);
 
-    sprintf(line, "Lower left sensor: %d", js);
+    sprintf(line, "Lower left sensor: %d", ll);
     SerialBT.println(line);
 
-    sprintf(line, "Lower right sensor: %d,", jd);
+    sprintf(line, "Lower right sensor: %d,", lr);
     SerialBT.println(line);
     
   }  
@@ -85,6 +85,7 @@ void loop()
   int avgright = (ur + lr) / 2; //calculating the aritmetic average of right side sensors
 
   int dvert = avgup - avgdown;//calculating the vertical value difference between upper sensors and lower sensors to find out if we have more light on the top or bottom 
+
   int doriz = avgleft - avgright;//calculating the horizontal value difference between left and right sides to find out if we have more light on the left side or the right side
 
   if (-1*dvert > tol || dvert > tol)/*the difference can be negative if avgup is a smaller number than avgdown so we multiply the tolerance with -1 and use the "OR" operand.
@@ -129,7 +130,7 @@ void loop()
             servoh = 180;
           }
         }
-      sprintf(linie, "Horizontal servo position: %d", servoo);
+      sprintf(linie, "Horizontal servo position: %d", servoh);
       SerialBT.println(linie); 
       orizontal.write(servoh);
     }
