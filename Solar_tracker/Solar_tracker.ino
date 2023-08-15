@@ -39,10 +39,10 @@ void setup()
 
 void loop() 
 {
-  int ul = analogRead(ldrss); 
-  int ur = analogRead(ldrsd); 
-  int ll = analogRead(ldrjs); 
-  int lr = analogRead(ldrjd); 
+  int ul = analogRead(ldrul); 
+  int ur = analogRead(ldrur); 
+  int ll = analogRead(ldrll); 
+  int lr = analogRead(ldrlr); 
   int valpanel = analogRead(panel);
 
   valpanel = map(valpanel, 0, 4095, 0, 5000);/*I used a panel that can output a maximum of 5V (5000mV) so I mapped the range of the ADC
@@ -84,12 +84,22 @@ void loop()
   int avgleft = (ul + ll) / 2; //calculating the aritmetic average of left side sensors
   int avgright = (ur + lr) / 2; //calculating the aritmetic average of right side sensors
 
-  int dvert = avgup - avgdown;//calculating the vertical value difference between upper sensors and lower sensors to find out if we have more light on the top or bottom 
+  int vertdiff = avgup - avgdown;//calculating the vertical value difference between upper sensors and lower sensors to find out if we have more light on the top or bottom 
+  
+  if(vertdiff < 0)
+    {
+      vertdiff = 1 * vertdiff;//this is in case the result is negative
+    }
+  
+  int horizdiff = avgleft - avgright;//calculating the horizontal value difference between left and right sides to find out if we have more light on the left side or the right side
 
-  int doriz = avgleft - avgright;//calculating the horizontal value difference between left and right sides to find out if we have more light on the left side or the right side
+  if(horizdiff < 0)
+    {
+      horizdiff = 1 * horizdiff;// this is in case the result is negative
+    }
 
-  if (-1*dvert > tol || dvert > tol)/*the difference can be negative if avgup is a smaller number than avgdown so we multiply the tolerance with -1 and use the "OR" operand.
- Once the up or down value is higher than the tolerance the program is going to compare the up value vs the down value and act accordingly.*/
+
+  if (vertdiff > tol)/*Once the vertical difference value is higher than the tolerance the program is going to compare the up value vs the down value and act accordingly.*/
     {
       if (avgup > avgdown)//if the upper side value is higher than the lower side value we raise the panel
         {
@@ -112,7 +122,7 @@ void loop()
       vertical.write(servov);
     }
 
-  if (-1*doriz > tol || doriz > tol)  
+  if (horizdiff > tol)  
     {
       if (avgleft > avgright) 
         {
@@ -130,9 +140,9 @@ void loop()
             servoh = 180;
           }
         }
-      sprintf(linie, "Horizontal servo position: %d", servoh);
-      SerialBT.println(linie); 
-      orizontal.write(servoh);
+      sprintf(line, "Horizontal servo position: %d", servoh);
+      SerialBT.println(line); 
+      horizontal.write(servoh);
     }
   
 
