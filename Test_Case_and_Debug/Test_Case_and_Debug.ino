@@ -68,7 +68,7 @@ void debugMovement()
     int doriz = avgleft - avgright;
     if(doriz < 0)
     {
-      doriz = -1 * doriz
+      doriz = -1 * doriz;
     }
 
     
