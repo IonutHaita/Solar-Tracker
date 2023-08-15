@@ -60,9 +60,20 @@ void debugMovement()
     int avgright = (urval + lrval) / 2;
 
     int dvert = avgup - avgdown;
-    int doriz = avgleft - avgright;
+    if(dvert < 0)
+    {
+      dvert = -1 * dvert;
+    }
 
-    if (-1*dvert > tol || dvert > tol)
+    int doriz = avgleft - avgright;
+    if(doriz < 0)
+    {
+      doriz = -1 * doriz
+    }
+
+    
+
+    if (dvert > tol)
       {
         if (avgup > avgdown)
           {
@@ -75,7 +86,7 @@ void debugMovement()
           Serial.println(vertidir);
       }
 
-    if (-1*doriz > tol || doriz > tol)  
+    if (doriz > tol)  
       {
         if (avgleft > avgright) 
           {
