@@ -23,7 +23,7 @@ void displaySensValSingle()
   Serial.println(llval);
   Serial.print("Lower right value: ");
   Serial.println(lrval);
-  Serial.println("Exiting to Main Menu...");
+  Serial.println("Returning to Main Menu...");
   delay(200);
   preMenu();
 }
@@ -44,7 +44,7 @@ void displaySensValCont()
   }
   Serial.parseInt();
   Serial.read();
-  Serial.println("Exiting to Main Menu...");
+  Serial.println("Returning to Main Menu...");
   delay(200);
   preMenu();
 }
@@ -131,7 +131,7 @@ void debugMovement()
   }
   Serial.parseInt();
   Serial.read();
-  Serial.println("Exiting to Main Menu...");
+  Serial.println("Returning to Main Menu...");
   delay(200);
   preMenu();
 }
@@ -148,7 +148,7 @@ void checkPanelVoltage()
   }
   Serial.parseInt();
   Serial.read();
-  Serial.println("Exiting to Main Menu...");
+  Serial.println("Returning to Main Menu...");
   delay(200);
   preMenu();
 }
@@ -203,10 +203,13 @@ void setup()
 
 void loop()
 {
-  if(Serial.available())
+  while(!Serial.available())
   {
-    Serial.parseInt();
-    Serial.read();
-    preMenu();
+    Serial.println("Send any character to begin");
+    delay(2000);
   }
+  Serial.parseInt();
+  Serial.read();
+  preMenu();
+
 }
