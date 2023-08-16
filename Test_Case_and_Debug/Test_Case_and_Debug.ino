@@ -4,8 +4,8 @@ const int ldrll = 7;//replace value with the coresponding pin address for the lo
 const int ldrlr = 8;//replace value with the coresponding pin address for the lower right LDR
 const int panel = 9;//replace value with the coresponding pin address for the solar panel
 
-int ulval = analogRead(ldrul);//read value from the upper left sensor and pass it into ulval variable
-int urval = analogRead(ldrur);//read value from the upper right sensor and pass it into urval variable
+int ulval = 3000;//analogRead(ldrul);//read value from the upper left sensor and pass it into ulval variable
+int urval = 3000;//analogRead(ldrur);//read value from the upper right sensor and pass it into urval variable
 int llval = analogRead(ldrll);//read value from the lower left sensor and pass it into llval variable
 int lrval = analogRead(ldrlr);//read value from the upper left sensor and pass it into ulval variable
 int pval =  analogRead(panel);//read value from the upper left sensor and pass it into ulval variable
@@ -61,6 +61,9 @@ void debugMovement()
     int avgleft = (ulval + llval) / 2;
     int avgright = (urval + lrval) / 2;
 
+    int servoh = 90;
+    int servov = 90;
+
     int dvert = avgup - avgdown;
     if(dvert < 0)
     {
@@ -80,29 +83,68 @@ void debugMovement()
         if (avgup > avgdown)
           {
             vertidir = "The panel is moving up";
+            servov ++;
+            if(servov == 180)
+            {
+              servov = 180;
+            }
           }
         else if (avgup < avgdown)
           {
             vertidir = "The panel is moving down";
+            servov --;
+            if(servov == 0)
+            {
+              servov = 0;
+            }
           }
           Serial.println(vertidir);
+          Serial.print("Vertical servo is at(degrees): ");
+          Serial.println(servov);
       }
 
     if (doriz > tol)  
       {
         if (avgleft > avgright) 
           {
-            horizdir = "The panel is moving left"; 
+            horizdir = "The panel is moving left";
+            servoh --;
+            if(servoh == 0)
+            {
+              servoh = 0;
+            } 
           }
         else if (avgleft < avgright)
           {
             horizdir = "The panel is moving right";
+            servoh ++;
+            if(servoh == 180)
+            {
+              servoh = 180;
+            }
           }
         Serial.println(horizdir);
+        Serial.print("Horizontal servo is at(degrees): ");
+        Serial.println(servoh);
       }
-  
-
     delay(time);
+  }
+  Serial.parseInt();
+  Serial.read();
+  Serial.println("Exiting to Main Menu...");
+  delay(200);
+  preMenu();
+}
+
+void checkPanelVoltage()
+{
+  while(!Serial.available())
+  {
+  int panelVal = analogread(panel);
+  panelVal = map(panelVal, 0, 4095, 0, 5000);//Don't forget to change the values according to the specs of the ADC and the maximum output of the solar panel
+  Serial.print("Panel voltage: ");
+  Serial.print(panelVal);
+  delay(400);//change for refresh rate
   }
   Serial.parseInt();
   Serial.read();
@@ -118,6 +160,7 @@ void preMenu()
   Serial.println("1. Sensor values - single");
   Serial.println("2. Sensor values - continuos");
   Serial.println("3. Debug panel movement");
+  Serial.println("4. Check solar panel voltage")
   Serial.println("==============================");
   mainMenu();
 }
@@ -140,6 +183,9 @@ void mainMenu()
         break;
         case 3:
         debugMovement();
+        break;
+        case 4:
+        checkPanelVoltage();
         break;
         default:
         Serial.println("Invalid option, try again!");
