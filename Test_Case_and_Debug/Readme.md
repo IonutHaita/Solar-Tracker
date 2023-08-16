@@ -12,3 +12,5 @@ How this code works:
   2. Sensor values - continous: This option will print the values from the LDRs in a loop until you send another character via serial monitor. It is used to check if the LDR pins are correctly assigned and if they are working properly; 
   3. Debug panel movement: With this option you can see in real time the direction of travel for the panel and for the servos.
   4. Check solar panel voltage: This will display the voltage that the solar panel produces by mapping the output value from the ADC with a value that reflects the maximum output of the panel. This option can be used to calibrate the mapping function and ensure that the result is as close to the real number by using a DMM connected to the panel.
+
+Watch video demo: https://youtu.be/VIb50jG6qHs
