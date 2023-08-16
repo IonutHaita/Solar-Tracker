@@ -39,6 +39,8 @@ void displaySensValCont()
     Serial.println(lrval);
     delay(300);
   }
+  Serial.parseInt();
+  Serial.read();
   Serial.println("Exiting to Main Menu...");
   delay(200);
   preMenu();
@@ -102,13 +104,15 @@ void debugMovement()
 
     delay(time);
   }
+  Serial.parseInt();
+  Serial.read();
   Serial.println("Exiting to Main Menu...");
   delay(200);
   preMenu();
 }
 
 void preMenu()
-{
+{ 
   Serial.println("========== Main Menu ==========");
   Serial.println("Select an option:");
   Serial.println("1. Sensor values - single");
@@ -148,10 +152,15 @@ void mainMenu()
 
 void setup()
 {
-  Serial.begin(9600);//start serial communication
+  Serial.begin(115200);//start serial communication
 }
 
 void loop()
 {
-  preMenu();
+  if(Serial.available())
+  {
+    Serial.parseInt();
+    Serial.read();
+    preMenu();
+  }
 }
